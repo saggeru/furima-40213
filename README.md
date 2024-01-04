@@ -5,7 +5,8 @@
 | ------------------ | ------ | ------------------------- |
 | nickname           | string | null: false               |
 | email              | string | null: false, unique: true |
-| encrypted_password | string | null: false, minimum: 6   |
+| encrypted_password | string | null: false               |
+| first_name         | string | null: false               |
 | last_name          | string | null: false               |
 | first_kana         | string | null: false               |
 | last_kana          | string | null: false               |
@@ -26,20 +27,20 @@
 | about_item              | text       | null: false                    |
 | price                   | integer    | null: false                    |
 | user                    | references | null: false, foreign_key: true |
-| category_id             | integer    | null: false, foreign_key: true |
-| condition_id            | integer    | null: false, foreign_key: true |
-| shipping_fee_payment_id | integer    | null: false, foreign_key: true |
-| shipping_day_id         | integer    | null: false, foreign_key: true |
-| prefectures_id          | integer    | null: false, foreign_key: true |
+| category_id             | integer    | null: false                    |
+| condition_id            | integer    | null: false                    |
+| shipping_fee_payment_id | integer    | null: false                    |
+| shipping_day_id         | integer    | null: false                    |
+| prefecture_id           | integer    | null: false                    |
 | ----------------------- | ---------- | ------------------------------ |
 
 ## Association
 belongs_to :user
-belongs_to :category_id
-belongs_to :condition_id
-belongs_to :shipping_fee_payment_id
-belongs_to :shipping_day_id
-belongs_to :prefecture_id
+belongs_to :category
+belongs_to :condition
+belongs_to :shipping_fee_payment
+belongs_to :shipping_day
+belongs_to :prefecture
 has_one :order
 
 ## ActiveHashモデルの定義
@@ -47,7 +48,7 @@ has_one :order
 - condition(製品状態)
 - shipping_fee_payment(配送料負担)
 - shipping_day(購入確定から発送までの日数)
-- prefectures(発送元都道府県) << これらのモジュールをItemテーブルへ取り込みます
+- prefecture(発送元都道府県) << これらのモジュールをItemテーブルへ取り込みます
 
 
 
@@ -58,10 +59,10 @@ has_one :order
 | post_code        | string     | null: false                    |
 | city             | string     | null: false                    |
 | address_no       | string     | null: false                    |
-| building_name    | string     | default: nil                   |
+| building_name    | string     |                                |
 | phone_number     | string     | null: false                    |
-| prefectures_id   | integer    | null: false, foreign_key: true |
-| order_id         | references | null: false, foreign_key: true |
+| prefectures      | integer    | null: false,                   |
+| order            | references | null: false, foreign_key: true |
 | ---------------- | ---------- | ------------------------------ |
 
 ## Association
@@ -77,8 +78,8 @@ has_one :order
 
 ## Column | Type       | Option                         |
 | ------- | ---------- | ------------------------------ |
-| user_id | references | null: false, foreign_key: true |
-| item_id | references | null: false, foreign_key: true |
+| user    | references | null: false, foreign_key: true |
+| item    | references | null: false, foreign_key: true |
 | ------- | ---------- | ------------------------------ |
 
 ## Association
