@@ -54,23 +54,23 @@ has_one :order
 
 # Addressesテーブル
 
-## Column          | Type       | Option                         |
-| ---------------- | ---------- | ------------------------------ |
-| post_code        | string     | null: false                    |
-| city             | string     | null: false                    |
-| address_no       | string     | null: false                    |
-| building_name    | string     |                                |
-| phone_number     | string     | null: false                    |
-| prefectures      | integer    | null: false,                   |
-| order            | references | null: false, foreign_key: true |
-| ---------------- | ---------- | ------------------------------ |
+## Column       | Type       | Option                         |
+| ------------- | ---------- | ------------------------------ |
+| post_code     | string     | null: false                    |
+| city          | string     | null: false                    |
+| address_no    | string     | null: false                    |
+| building_name | string     |                                |
+| phone_number  | string     | null: false                    |
+| prefecture_id | integer    | null: false,                   |
+| order         | references | null: false, foreign_key: true |
+| ------------- | ---------- | ------------------------------ |
 
 ## Association
 - belongs_to :order
-- belongs_to :prefecture_id
+- belongs_to :prefecture
 
 ## ActiveHashモデルの定義
-- prefectures(都道府県) モジュールを取り込みます。
+- prefecture(都道府県) モジュールを取り込みます。
 
 
 
