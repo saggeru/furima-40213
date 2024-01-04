@@ -20,26 +20,26 @@
 
 # Itemsテーブル
 
-## Column              | Type       | Option                         |
-| -------------------- | ---------- | ------------------------------ |
-| item_name            | string     | null: false                    |
-| about_item           | text       | null: false                    |
-| price                | integer    | null: false                    |
-| user_id              | references | null: false, foreign_key: true |
-| category             | integer    | null: false, foreign_key: true |
-| condition            | integer    | null: false, foreign_key: true |
-| shipping_fee_payment | integer    | null: false, foreign_key: true |
-| shipping_day         | integer    | null: false, foreign_key: true |
-| prefectures          | integer    | null: false, foreign_key: true |
-| -------------------- | ---------- | ------------------------------ |
+## Column                 | Type       | Option                         |
+| ----------------------- | ---------- | ------------------------------ |
+| item_name               | string     | null: false                    |
+| about_item              | text       | null: false                    |
+| price                   | integer    | null: false                    |
+| user                    | references | null: false, foreign_key: true |
+| category_id             | integer    | null: false, foreign_key: true |
+| condition_id            | integer    | null: false, foreign_key: true |
+| shipping_fee_payment_id | integer    | null: false, foreign_key: true |
+| shipping_day_id         | integer    | null: false, foreign_key: true |
+| prefectures_id          | integer    | null: false, foreign_key: true |
+| ----------------------- | ---------- | ------------------------------ |
 
 ## Association
 belongs_to :user
-belongs_to :category
-belongs_to :condition
-belongs_to :shipping_fee_payment
-belongs_to :shipping_day
-belongs_to :prefecture
+belongs_to :category_id
+belongs_to :condition_id
+belongs_to :shipping_fee_payment_id
+belongs_to :shipping_day_id
+belongs_to :prefecture_id
 has_one :order
 
 ## ActiveHashモデルの定義
@@ -53,20 +53,20 @@ has_one :order
 
 # Addressesテーブル
 
-## Column       | Type       | Option                         |
-| ------------- | ---------- | ------------------------------ |
-| post_code     | string     | null: false                    |
-| city          | string     | null: false                    |
-| address_no    | string     | null: false                    |
-| building_name | string     | default: nil                   |
-| phone_number  | string     | null: false                    |
-| prefectures   | integer    | null: false, foreign_key: true |
-| order_id      | references | null: false, foreign_key: true |
-| ------------- | ---------- | ------------------------------ |
+## Column          | Type       | Option                         |
+| ---------------- | ---------- | ------------------------------ |
+| post_code        | string     | null: false                    |
+| city             | string     | null: false                    |
+| address_no       | string     | null: false                    |
+| building_name    | string     | default: nil                   |
+| phone_number     | string     | null: false                    |
+| prefectures_id   | integer    | null: false, foreign_key: true |
+| order_id         | references | null: false, foreign_key: true |
+| ---------------- | ---------- | ------------------------------ |
 
 ## Association
 - belongs_to :order
-- belongs_to :prefecture
+- belongs_to :prefecture_id
 
 ## ActiveHashモデルの定義
 - prefectures(都道府県) モジュールを取り込みます。
