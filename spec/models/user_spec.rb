@@ -40,8 +40,9 @@ RSpec.describe User, type: :model do
 
       it 'パスワードの値が英数字混合6文字以上でないと新規登録できない' do
         @user.password = '123456'
+        @user.password_confirmation = '123456'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password is invalid")
+        expect(@user.errors.full_messages).to include("Password is invalid. Include both letters and numbers")
       end
 
       it 'パスワードの値が6文字未満のとき新規登録できない' do
@@ -51,18 +52,52 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
       end
 
-      it 'お名前(全角)の値が漢字以外のとき新規登録できない' do
-        @user.first_name = 'a'
-        @user.last_name = 'b'
+      it 'お名前(名字)の値が空のとき新規登録できない' do
+        @user.last_name = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("First name is invalid")
+        expect(@user.errors.full_messages).to include("Last name can't be blank")
       end
 
-      it 'お名前カナ(全角)の値が英字のとき新規登録できない' do
-        @user.first_kana = 'a'
-        @user.last_kana = 'b'
+      it 'お名前(名前)の値が空のとき新規登録できない' do
+        @user.first_name = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("First kana is invalid")
+        expect(@user.errors.full_messages).to include("First name can't be blank")
+      end
+
+      it 'お名前(名字//全角)の値が英字のとき新規登録できない' do
+        @user.last_name = 'a'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last name is invalid. Input full-width characters")
+      end
+
+      it 'お名前(名前//全角)の値が英字のとき新規登録できない' do
+        @user.first_name = 'b'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name is invalid. Input full-width characters")
+      end
+
+      it 'お名前(カナ//名字)の値が空のとき新規登録できない' do
+        @user.last_name = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last name can't be blank")
+      end
+
+      it 'お名前(カナ//名前)の値が空のとき新規登録できない' do
+        @user.first_name = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First name can't be blank")
+      end
+
+      it 'お名前カナ(名字)の値が英字のとき新規登録できない' do
+        @user.last_kana = 'a'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Last kana is invalid. Input full-width katakana characters")
+      end
+
+      it 'お名前カナ(名前)の値が英字のとき新規登録できない' do
+        @user.first_kana = 'b'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("First kana is invalid. Input full-width katakana characters")
       end
 
       it '生年月日の値が空のとき新規登録できない' do
