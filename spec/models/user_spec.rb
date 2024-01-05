@@ -31,6 +31,21 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Email is invalid")
       end
 
+      it 'メールアドレスの値が重複しているとき新規登録できない' do
+        @user.save
+        another_user = FactoryBot.build(:user)
+        another_user.email = @user.email
+        another_user.valid?
+        expect(another_user.errors.full_messages).to include('Email has already been taken')
+      end
+
+      it 'パスワードの値が空のとき新規登録できない' do
+        @user.password = ''
+        @user.password_confirmation = ''
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password can't be blank")
+      end
+
       it 'パスワード(確認)の値が不一致では新規登録できない' do
         @user.password = 'a12345'
         @user.password_confirmation = '12345b'
@@ -38,9 +53,23 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
       end
 
-      it 'パスワードの値が英数字混合6文字以上でないと新規登録できない' do
+      it 'パスワードの値が半角数字のみでは新規登録できない' do
         @user.password = '123456'
         @user.password_confirmation = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid. Include both letters and numbers")
+      end
+
+      it 'パスワードの値が半角英字のみでは新規登録できない' do
+        @user.password = 'abcdef'
+        @user.password_confirmation = 'abcdef'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid. Include both letters and numbers")
+      end
+
+       it 'パスワードの値が全角文字では新規登録できない' do
+        @user.password = 'Ａ１２３４５'
+        @user.password_confirmation = 'Ａ１２３４５'
         @user.valid?
         expect(@user.errors.full_messages).to include("Password is invalid. Include both letters and numbers")
       end
@@ -77,15 +106,15 @@ RSpec.describe User, type: :model do
       end
 
       it 'お名前(カナ//名字)の値が空のとき新規登録できない' do
-        @user.last_name = ''
+        @user.last_kana = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("Last name can't be blank")
+        expect(@user.errors.full_messages).to include("Last kana can't be blank")
       end
 
       it 'お名前(カナ//名前)の値が空のとき新規登録できない' do
-        @user.first_name = ''
+        @user.first_kana = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("First name can't be blank")
+        expect(@user.errors.full_messages).to include("First kana can't be blank")
       end
 
       it 'お名前カナ(名字)の値が英字のとき新規登録できない' do
