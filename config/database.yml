@@ -27,7 +27,7 @@ development:
 test:
   <<: *default
   adapter: mysql2
-  username: root
+  username: sageru
   password:
   host: localhost
   database: furima_40213_test
