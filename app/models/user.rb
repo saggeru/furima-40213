@@ -9,4 +9,6 @@ class User < ApplicationRecord
   validates :password, format: { with: PASSWORD_REGEX, message: "is invalid. Include both letters and numbers" }
   validates :first_name, :last_name, presence: true, format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: "is invalid. Input full-width characters" }
   validates :first_kana, :last_kana, presence: true, format: { with: /\A[ァ-ヶー]+\z/, message: "is invalid. Input full-width katakana characters" }
+
+  has_many :items
 end
