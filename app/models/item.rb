@@ -12,11 +12,7 @@ class Item < ApplicationRecord
 
 
   # -- バリデーション -- #
-  validates :item_name, :about_item, :price, presence: true, unless: :was_attached?
+  validates :item_name, :about_item, :price, :image, presence: true
   validates :category_id, :condition_id, :shipping_fee_payment_id, :shipping_day_id, :prefecture_id, numericality: { other_than: 1 , message: "can't be blank"}
-  
-  def was_attached?
-    self.image.attached?
-  end
 
 end
