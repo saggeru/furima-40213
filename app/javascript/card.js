@@ -1,6 +1,6 @@
 const pay = () => {
   const publicKey = document.getElementById('payjp-public-key').dataset.key;
-  const payjp = Payjp(publicKey)
+  const payjp = Payjp(publicKey);
   const elements = payjp.elements();
   const numberElement = elements.create('cardNumber'); /* ▼ 入力フォームの生成 ▼ */
   const expiryElement = elements.create('cardExpiry');
@@ -29,4 +29,5 @@ const pay = () => {
   });
 };
 
-window.addEventListener("turbo:load", pay);
+window.addEventListener('turbo:load', pay);
+window.addEventListener('turbo:render', pay);
