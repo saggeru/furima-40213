@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
   
+  before_action :authenticate_user!, only: [:index]
+  
   def index
     @item = Item.find_by(id: params[:item_id])
     # ▲ item_id を取得 Formオブジェクトパターンで item_id を追加 ▲ #
