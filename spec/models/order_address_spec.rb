@@ -44,6 +44,12 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("City can't be blank")
       end
 
+      it '市区町村の値が英字のとき購入できない' do
+        @order_address.city = 'test'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("City is invalid. Only enter in japanese")
+      end
+
       it '番地の値が空のとき購入できない' do
         @order_address.address_no = ''
         @order_address.valid?
@@ -54,6 +60,24 @@ RSpec.describe OrderAddress, type: :model do
         @order_address.phone_number = ''
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Phone number can't be blank")
+      end
+
+      it '電話番号が10桁以下のとき購入できない' do
+        @order_address.phone_number = '12345'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number is too short (minimum is 10 characters)")
+      end
+
+      it '電話番号が全角数値のとき購入できない' do
+        @order_address.phone_number = '０８０１２３４５６７８'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
+      end
+
+      it '電話番号が文字のとき購入できない' do
+        @order_address.phone_number = 'テスト'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number is invalid")
       end
     end
   end
