@@ -12,6 +12,7 @@ module Furima40213
     config.load_defaults 7.0
     config.active_storage.variable_content_types = ['image/jpg']
     config.active_storage.variant_processor = :mini_magick
+    Faker::Config.locale = 'ja'
 
     # Configuration for the application, engines, and railties goes here.
     #
