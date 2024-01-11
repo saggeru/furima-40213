@@ -1,15 +1,13 @@
 class OrdersController < ApplicationController
   
   before_action :authenticate_user!, only: [:index]
-  
+  before_action :set_item, only: [:index, :create]
+
   def index
-    @item = Item.find_by(id: params[:item_id])
-    # ▲ item_id を取得 Formオブジェクトパターンで item_id を追加 ▲ #
     @order_address = OrderAddress.new
   end
 
   def create
-    @item = Item.find_by(id: params[:item_id])
     @order_address = OrderAddress.new(order_address_params)
     if @order_address.valid?
       @order_address.save
@@ -24,6 +22,10 @@ class OrdersController < ApplicationController
 
   def order_address_params
     params.require(:order_address).permit(:post_code, :city, :address_no, :building_name, :phone_number, :prefecture_id).merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
+  end
+
+  def set_item
+    @item = Item.find_by(id: params[:item_id])
   end
 
   def pay_item
