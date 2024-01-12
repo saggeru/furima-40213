@@ -6,8 +6,9 @@ function price_calc() {
     const addTaxPrice = document.getElementById("add-tax-price");
     const profit = document.getElementById("profit");
 
+    const taxPrice = Math.floor(inputValue * 0.1);
     addTaxPrice.innerHTML = Math.floor(inputValue * 0.1);
-    profit.innerHTML = Math.floor(inputValue - inputValue % 10);
+    profit.innerHTML = Math.floor(inputValue - taxPrice);
   })
 }
 
