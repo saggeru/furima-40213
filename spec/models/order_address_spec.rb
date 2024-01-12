@@ -20,6 +20,24 @@ RSpec.describe OrderAddress, type: :model do
     end
 
     context '購入できないとき' do
+      it 'user情報が紐づいていなければ購入できない' do
+        @order_address.user_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'item情報が紐づいていなければ購入できない' do
+        @order_address.item_id = nil
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Item can't be blank")
+      end
+
+      it 'tokenが紐づいていなければ購入できない' do
+        @order_address.token = ''
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Token can't be blank")
+      end
+
       it '郵便番号の値が空のとき購入できない' do
         @order_address.post_code = ''
         @order_address.valid?
@@ -62,10 +80,16 @@ RSpec.describe OrderAddress, type: :model do
         expect(@order_address.errors.full_messages).to include("Phone number can't be blank")
       end
 
-      it '電話番号が10桁以下のとき購入できない' do
+      it '電話番号が9桁以下のとき購入できない' do
         @order_address.phone_number = '12345'
         @order_address.valid?
         expect(@order_address.errors.full_messages).to include("Phone number is too short (minimum is 10 characters)")
+      end
+
+      it '電話番号が12桁以上のとき購入できない' do
+        @order_address.phone_number = '123456789123'
+        @order_address.valid?
+        expect(@order_address.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
       end
 
       it '電話番号が全角数値のとき購入できない' do
