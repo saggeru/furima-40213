@@ -32,7 +32,7 @@ test:
   host: localhost
   database: furima_40213_test
 
-  production:
+production:
   <<: *default
   adapter: mysql2
   database: furima_40213_production
